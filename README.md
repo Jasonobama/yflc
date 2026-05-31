@@ -31,7 +31,10 @@ yflc/
 4. **解密函数** — 密文 -> 每 6 字节切分佛词 -> 反向查 Base64 字符 -> Base64 解码 -> 明文
 
 ### main.c
-交互式命令行程序，启动时自动将控制台切换为 UTF-8 编码（Windows），提供菜单选择加密/解密/退出。
+交互式命令行程序，提供菜单选择加密/解密/退出。支持跨平台编译（Windows / Linux）：
+
+- Windows 平台：自动将控制台切换为 UTF-8 编码，`strdup` 映射为 MSVC 的 `_strdup`
+- Linux / POSIX 平台：定义 `_POSIX_C_SOURCE 200809L` 启用 POSIX 扩展函数
 
 ## 加解密算法
 
@@ -89,11 +92,27 @@ Base64 字符串 (补回 = 填充)
 
 ### 编译
 
+**Linux / POSIX：**
+
+```sh
+gcc -Wall -o yflc main.c yflc.c
+```
+
+**Windows (MSVC / MinGW)：**
+
 ```sh
 gcc -Wall -o yflc.exe main.c yflc.c
 ```
 
 ### 运行
+
+**Linux / POSIX：**
+
+```sh
+./yflc
+```
+
+**Windows：**
 
 ```sh
 yflc.exe

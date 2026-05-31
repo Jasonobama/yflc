@@ -1,3 +1,11 @@
+#ifdef _WIN32
+#define strdup _strdup
+#else
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#endif
+
 #include "yflc.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +19,7 @@ static char* read_line(void) {
     char buf[4096];
     if (!fgets(buf, sizeof(buf), stdin)) return NULL;
     buf[strcspn(buf, "\r\n")] = '\0';
-    return _strdup(buf);
+    return strdup(buf);
 }
 
 int main(void) {
